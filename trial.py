@@ -78,21 +78,23 @@ def single_trial(
         (0, lambda: 0 / 0, None),  # initial one to make life easier
         (ITI / 1000, lambda: draw_fixation_dot(settings), None),
         (
-            0.75,
+            0.25,
             lambda: create_stimuli_frame(stimuli_colours[0], positions[0], settings),
             "stimulus_onset_1",
         ),
+        (0.75, lambda: draw_fixation_dot(settings), None),
         (
-            0.75,
+            0.25,
             lambda: create_stimuli_frame(stimuli_colours[1], positions[1], settings),
             "stimulus_onset_2",
         ),
-        (1, lambda: draw_fixation_dot(settings), None),
+        (1.25, lambda: draw_fixation_dot(settings), None),
         (
-            None,
+            0.25,
             lambda: create_cue_frame(target_item, settings),
-            None,
+            "cue_onset",
         ),
+        (0.75, lambda: draw_fixation_dot(settings), None),
     ]
 
     # !!! The timing you pass to do_while_showing is the timing for the previously drawn screen. !!!
@@ -109,12 +111,9 @@ def single_trial(
         do_while_showing(duration, screens[index + 1][1], settings["window"])
 
     # The for loop only draws the last frame, never shows it
-    # So show it here
-    if not testing:
-        trigger = get_trigger("cue_onset", positions, target_item)
-        eyetracker.tracker.send_message(f"trig{trigger}")
-
+    # So show it here + wait
     settings["window"].flip()
+    wait(screens[-1][0])
 
     response = get_response(
         target_colour,

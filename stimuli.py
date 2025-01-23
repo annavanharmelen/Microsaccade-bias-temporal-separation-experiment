@@ -16,8 +16,6 @@ ITEM_ECCENTRICITY = 5  # distance from fixation to item
 RADIUS_COLOUR_WHEEL = 5
 INNER_RADIUS_COLOUR_WHEEL = 3.5
 
-colour_wheel = None
-
 
 def draw_fixation_dot(settings, colour="#eaeaea"):
     # Make fixation dot
@@ -53,12 +51,7 @@ def draw_item(colour, position, settings):
     item.draw()
 
 
-def create_colour_wheel(settings):
-    global colour_wheel
-
-    if colour_wheel is not None:
-        return colour_wheel
-
+def create_colour_wheel(offset, settings):
     # Parameters for the colour wheel
     radius = settings["deg2pix"](RADIUS_COLOUR_WHEEL)  # Radius of the colour wheel
     inner_radius = settings["deg2pix"](
@@ -75,17 +68,17 @@ def create_colour_wheel(settings):
             settings["window"],
             vertices=[
                 [
-                    inner_radius * np.cos(np.radians(i)),
-                    inner_radius * np.sin(np.radians(i)),
+                    inner_radius * np.cos(np.radians(i + offset)),
+                    inner_radius * np.sin(np.radians(i + offset)),
                 ],
-                [radius * np.cos(np.radians(i)), radius * np.sin(np.radians(i))],
+                [radius * np.cos(np.radians(i + offset)), radius * np.sin(np.radians(i + offset))],
                 [
-                    radius * np.cos(np.radians(i + 1)),
-                    radius * np.sin(np.radians(i + 1)),
+                    radius * np.cos(np.radians(i + 1 + offset)),
+                    radius * np.sin(np.radians(i + 1 + offset)),
                 ],
                 [
-                    inner_radius * np.cos(np.radians(i + 1)),
-                    inner_radius * np.sin(np.radians(i + 1)),
+                    inner_radius * np.cos(np.radians(i + 1 + offset)),
+                    inner_radius * np.sin(np.radians(i + 1 + offset)),
                 ],
             ],
             fillColor=colours[i],

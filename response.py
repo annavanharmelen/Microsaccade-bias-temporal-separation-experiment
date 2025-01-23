@@ -12,12 +12,11 @@ from stimuli import (
     create_colour_wheel,
     RADIUS_COLOUR_WHEEL as RADIUS,
     INNER_RADIUS_COLOUR_WHEEL as INNER_RADIUS,
-    draw_fixation_dot,
-    create_cue_frame,
 )
 from time import time
 import numpy as np
 from eyetracker import get_trigger
+import random
 
 
 def make_marker(radius, inner_radius, settings):
@@ -32,19 +31,22 @@ def make_marker(radius, inner_radius, settings):
 
     return marker
 
-def get_colour(mouse_pos, colours):
+def get_colour(mouse_pos, offset, colours):
     # Extract mouse position
     mouse_x, mouse_y = mouse_pos
 
     # Determine current colour based on mouse position
     angle = (np.degrees(np.arctan2(mouse_y, mouse_x)) + 360) % 360
-    current_colour = colours[int(angle)]
+    colour_angle = angle - offset
+    if colour_angle > 360:
+        colour_angle -= 360
+    current_colour = colours[int(colour_angle)]
 
     return current_colour, angle
 
-def move_marker(marker, mouse_pos, colours, radius, inner_radius, settings):
+def move_marker(marker, mouse_pos, offset, colours, radius, inner_radius, settings):
     # Get current selected colour and use for marker
-    current_colour, angle = get_colour(mouse_pos, colours)
+    current_colour, angle = get_colour(mouse_pos, offset, colours)
     marker.fillColor = current_colour
 
     # Fix the marker's position to the colour wheel's radius
@@ -102,7 +104,8 @@ def get_response(
 
     # Prepare the colour wheel and initialise variables
     colours = settings["colours"]
-    colour_wheel = create_colour_wheel(settings)
+    offset = random.randint(0, 360)
+    colour_wheel = create_colour_wheel(offset, settings)
     mouse = event.Mouse(visible=False, win=settings["window"])
     mouse.getPos()
     marker = make_marker(RADIUS, INNER_RADIUS, settings)
@@ -110,8 +113,8 @@ def get_response(
 
     # Wait until participant starts moving the mouse
     while not mouse.mouseMoved():
-        draw_fixation_dot(settings)
-        create_cue_frame(target_item, settings)
+        for wedge in colour_wheel:
+            wedge.draw()
         settings["window"].flip()
     response_started = time()
     idle_reaction_time = response_started - idle_reaction_time_start
@@ -128,7 +131,7 @@ def get_response(
 
         # Move the marker
         current_colour = move_marker(
-            marker, mouse.getPos(), colours, RADIUS, INNER_RADIUS, settings
+            marker, mouse.getPos(), offset, colours, RADIUS, INNER_RADIUS, settings
         )
 
         # Flip the display
@@ -148,6 +151,7 @@ def get_response(
         "idle_reaction_time_in_ms": round(idle_reaction_time * 1000, 2),
         "response_time_in_ms": round(response_time * 1000, 2),
         "selected_colour": selected_colour,
+        "colour_wheel_offset": offset,
         **evaluate_response(selected_colour, target_colour, colours),
     }
 

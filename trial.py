@@ -22,7 +22,7 @@ import random
 
 def generate_trial_characteristics(conditions, settings):
     # Extract condition information
-    target_item, *positions = conditions
+    target_item, informative, *positions = conditions
 
     # Decide on random colours of stimulus
     stimuli_colours = random.sample(settings["colours"], 2)
@@ -45,6 +45,7 @@ def generate_trial_characteristics(conditions, settings):
         "target_item": target_item,
         "target_colour": target_colour,
         "target_position": target_position,
+        "retrocue": target_item if informative else 0,
     }
 
 
@@ -67,6 +68,7 @@ def single_trial(
     target_item,
     target_colour,
     target_position,
+    retrocue,
     settings,
     testing,
     eyetracker=None,
@@ -91,7 +93,7 @@ def single_trial(
         (1.25, lambda: draw_fixation_dot(settings), None),
         (
             0.25,
-            lambda: create_cue_frame(target_item, settings),
+            lambda: create_cue_frame(retrocue, settings),
             "cue_onset",
         ),
         (0.75, lambda: draw_fixation_dot(settings), None),
@@ -119,6 +121,7 @@ def single_trial(
         target_colour,
         positions,
         target_item,
+        retrocue,
         settings,
         testing,
         eyetracker,

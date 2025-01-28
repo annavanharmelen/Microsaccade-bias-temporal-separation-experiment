@@ -12,7 +12,7 @@ from response import wait_for_key
 
 
 def create_trial_list(n_trials):
-    if n_trials % 8 != 0:
+    if n_trials % 24 != 0:
         raise Exception(
             "Expected number of trials to be divisible by 40, otherwise perfect factorial combinations are not possible."
         )
@@ -21,13 +21,16 @@ def create_trial_list(n_trials):
     target_item = n_trials // 2 * [1, 2]
 
     # Generate equal distribution of stimulus 1 locations
-    loc_1 = n_trials // 2 * ["left"] + n_trials // 2 * ["right"]
+    loc_1 = n_trials // 8 * (n_trials // 6 * ["left"] + n_trials // 6 * ["right"])
 
     # Generate equal distribution of stimulus 2 locations
-    loc_2 = n_trials // 4 * (n_trials // 4 * ["left"] + n_trials // 4 * ["right"])
+    loc_2 = n_trials // 4 * (n_trials // 12 * ["left"] + n_trials // 12 * ["right"])
+
+    # Generate equal distribution of trials with an informative retrocue
+    informative_cue = n_trials // 3 * [True] + n_trials // 3 * [True] + n_trials // 3 * [False]
 
     # Create trial parameters for all trials
-    trials = list(zip(target_item, loc_1, loc_2))
+    trials = list(zip(target_item, informative_cue, loc_1, loc_2))
     random.shuffle(trials)
 
     return trials

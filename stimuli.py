@@ -101,7 +101,9 @@ def create_stimuli_frame(colour, position, settings, fix_colour="#eaeaea"):
     draw_fixation_dot(settings, fix_colour)
     draw_item(colour, position, settings)
 
+def create_retrocue(target_item, settings):
+    show_text(target_item, settings["window"], pos=(0, settings["deg2pix"](0.3)))
 
 def create_cue_frame(target_item, settings):
     draw_fixation_dot(settings)
-    show_text(target_item, settings["window"], pos=(0, settings["deg2pix"](0.3)))
+    create_retrocue(target_item, settings)

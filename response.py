@@ -10,6 +10,7 @@ from psychopy import visual, event
 from psychopy.hardware.keyboard import Keyboard
 from stimuli import (
     create_colour_wheel,
+    create_retrocue,
     RADIUS_COLOUR_WHEEL as RADIUS,
     INNER_RADIUS_COLOUR_WHEEL as INNER_RADIUS,
 )
@@ -89,6 +90,7 @@ def get_response(
     target_colour,
     positions,
     target_item,
+    retrocue,
     settings,
     testing,
     eyetracker,
@@ -106,7 +108,7 @@ def get_response(
     colours = settings["colours"]
     offset = random.randint(0, 360)
     colour_wheel = create_colour_wheel(offset, settings)
-    mouse = event.Mouse(visible=False, win=settings["window"])
+    mouse = event.Mouse(visible=True, win=settings["window"])
     mouse.getPos()
     marker = make_marker(RADIUS, INNER_RADIUS, settings)
     selected_colour = None
@@ -115,6 +117,8 @@ def get_response(
     while not mouse.mouseMoved():
         for wedge in colour_wheel:
             wedge.draw()
+        if retrocue == 0:
+            create_retrocue(target_item, settings)
         settings["window"].flip()
     response_started = time()
     idle_reaction_time = response_started - idle_reaction_time_start
@@ -128,6 +132,10 @@ def get_response(
         # Draw each wedge
         for wedge in colour_wheel:
             wedge.draw()
+
+        # Show retrocue if necessary
+        if retrocue == 0:
+            create_retrocue(target_item, settings)
 
         # Move the marker
         current_colour = move_marker(

@@ -87,7 +87,7 @@ def main():
     try:
         for block in range(2 if testing else N_BLOCKS):
             # Pseudo-randomly create conditions and target locations (so they're weighted)
-            trials = create_trial_list(8 if testing else TRIALS_PER_BLOCK)
+            trials = create_trial_list(24 if testing else TRIALS_PER_BLOCK)
 
             # Create temporary variable for saving block performance
             block_performance = []

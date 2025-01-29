@@ -32,6 +32,7 @@ def make_marker(radius, inner_radius, settings):
 
     return marker
 
+
 def get_colour(mouse_pos, offset, colours):
     # Extract mouse position
     mouse_x, mouse_y = mouse_pos
@@ -44,6 +45,7 @@ def get_colour(mouse_pos, offset, colours):
     current_colour = colours[int(colour_angle)]
 
     return current_colour, angle
+
 
 def move_marker(marker, mouse_pos, offset, colours, radius, inner_radius, settings):
     # Get current selected colour and use for marker
@@ -71,7 +73,7 @@ def evaluate_response(selected_colour, target_colour, colours):
 
     # Calculate the distance between the two colours
     abs_rgb_distance = abs(selected_colour_id - target_colour_id)
-    
+
     if abs_rgb_distance > 180:
         rgb_distance = 360 - abs_rgb_distance
     else:
@@ -94,6 +96,7 @@ def get_response(
     settings,
     testing,
     eyetracker,
+    additional_objects=[],
 ):
     keyboard: Keyboard = settings["keyboard"]
 
@@ -105,7 +108,6 @@ def get_response(
     keyboard.clock.reset()
 
     # Prepare the colour wheel and initialise variables
-    colours = settings["colours"]
     offset = random.randint(0, 360)
     colour_wheel = create_colour_wheel(offset, settings)
     mouse = event.Mouse(visible=True, win=settings["window"])
@@ -119,6 +121,8 @@ def get_response(
             wedge.draw()
         if retrocue == 0:
             create_retrocue(target_item, settings)
+        for object in additional_objects:
+            object.draw()
         settings["window"].flip()
     response_started = time()
     idle_reaction_time = response_started - idle_reaction_time_start
@@ -129,6 +133,9 @@ def get_response(
 
     # Show colour wheel and get participant response
     while not selected_colour:
+        # Check for pressed 'q'
+        check_quit(keyboard)
+
         # Draw each wedge
         for wedge in colour_wheel:
             wedge.draw()
@@ -137,9 +144,19 @@ def get_response(
         if retrocue == 0:
             create_retrocue(target_item, settings)
 
+        # Show additional objects if necessary
+        for object in additional_objects:
+            object.draw()
+
         # Move the marker
         current_colour = move_marker(
-            marker, mouse.getPos(), offset, colours, RADIUS, INNER_RADIUS, settings
+            marker,
+            mouse.getPos(),
+            offset,
+            settings["colours"],
+            RADIUS,
+            INNER_RADIUS,
+            settings,
         )
 
         # Flip the display
@@ -160,7 +177,7 @@ def get_response(
         "response_time_in_ms": round(response_time * 1000, 2),
         "selected_colour": selected_colour,
         "colour_wheel_offset": offset,
-        **evaluate_response(selected_colour, target_colour, colours),
+        **evaluate_response(selected_colour, target_colour, settings["colours"]),
     }
 
 

@@ -12,6 +12,7 @@ import pandas as pd
 from participantinfo import get_participant_details
 from set_up import get_monitor_and_dir, get_settings
 from eyetracker import Eyelinker
+from practice import practice
 from trial import single_trial, generate_trial_characteristics
 from time import time
 from numpy import mean
@@ -75,7 +76,7 @@ def main():
         eyelinker.start()
 
     # Practice until participant wants to stop
-    # practice(testing, settings)
+    practice(settings)
 
     # Initialise some stuff
     start_of_experiment = time()

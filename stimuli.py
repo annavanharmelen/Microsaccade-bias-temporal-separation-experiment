@@ -46,6 +46,7 @@ def draw_item(colour, position, settings):
         radius=settings["deg2pix"](ITEM_SIZE),
         fillColor=colour,
         pos=pos,
+        colorSpace="hsv",
     )
 
     item.draw()
@@ -83,6 +84,7 @@ def create_colour_wheel(offset, settings):
             ],
             fillColor=colours[i],
             lineColor=None,
+            colorSpace="hsv",
         )
         colour_wheel.append(wedge)
 

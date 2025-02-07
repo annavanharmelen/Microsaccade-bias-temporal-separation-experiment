@@ -56,9 +56,9 @@ def get_settings(monitor: dict, directory):
     num_segments = 360  # Number of segments in the wheel (degrees of hue)
     colours = [
         [
-            np.cos(np.radians(hue)) * 0.5 + 0.5,  # Red channel
-            np.cos(np.radians(hue - 120)) * 0.5 + 0.5,  # Green channel
-            np.cos(np.radians(hue - 240)) * 0.5 + 0.5,  # Blue channel
+            hue,  # Hue
+            0.2,  # Saturation
+            0.5,  # Lightness
         ]
         for hue in range(num_segments)
     ]

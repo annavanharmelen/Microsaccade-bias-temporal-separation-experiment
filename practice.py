@@ -41,6 +41,7 @@ def practice_colour_wheel(settings):
                 height=settings["deg2pix"](2),
                 fillColor=target_colour,
                 lineColor=None,
+                colorSpace="hsv",
             )
 
             response = get_response(

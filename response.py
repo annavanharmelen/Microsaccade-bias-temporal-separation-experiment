@@ -114,6 +114,7 @@ def get_response(
     mouse = event.Mouse(visible=True, win=settings["window"])
     mouse.getPos()
     marker = make_marker(RADIUS, INNER_RADIUS, settings)
+    marker.colorSpace="hsv"
     selected_colour = None
 
     # Wait until participant starts moving the mouse

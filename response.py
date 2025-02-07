@@ -11,6 +11,7 @@ from psychopy.hardware.keyboard import Keyboard
 from stimuli import (
     create_colour_wheel,
     create_retrocue,
+    draw_fixation_dot,
     RADIUS_COLOUR_WHEEL as RADIUS,
     INNER_RADIUS_COLOUR_WHEEL as INNER_RADIUS,
 )
@@ -117,13 +118,23 @@ def get_response(
 
     # Wait until participant starts moving the mouse
     while not mouse.mouseMoved():
+        # Draw each wedge
         for wedge in colour_wheel:
             wedge.draw()
+
+        # Draw fixation dot
+        draw_fixation_dot(settings)
+
+        # Show retrocue if applicable
         if retrocue == 0:
             create_retrocue(target_item, settings)
+
+        # Show additional objects if applicable
         for object in additional_objects:
             object.draw()
+
         settings["window"].flip()
+
     response_started = time()
     idle_reaction_time = response_started - idle_reaction_time_start
 
@@ -140,11 +151,14 @@ def get_response(
         for wedge in colour_wheel:
             wedge.draw()
 
-        # Show retrocue if necessary
+        # Draw fixation dot
+        draw_fixation_dot(settings)
+
+        # Show retrocue if applicable
         if retrocue == 0:
             create_retrocue(target_item, settings)
 
-        # Show additional objects if necessary
+        # Show additional objects if applicable
         for object in additional_objects:
             object.draw()
 

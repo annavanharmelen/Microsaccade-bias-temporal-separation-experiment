@@ -27,8 +27,8 @@ from block import (
     quick_finish,
 )
 
-N_BLOCKS = 20
-TRIALS_PER_BLOCK = 40
+N_BLOCKS = 16
+TRIALS_PER_BLOCK = 48
 
 
 def main():
@@ -40,7 +40,7 @@ def main():
     """
 
     # Set whether this is a test run or not
-    testing = True
+    testing = False
 
     # Get monitor and directory information
     monitor, directory = get_monitor_and_dir(testing)

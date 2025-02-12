@@ -11,10 +11,10 @@ import numpy as np
 
 DOT_SIZE = 0.1  # radius of fixation dot
 ITEM_SIZE = 0.5  # radius of item
-ITEM_ECCENTRICITY = 5  # distance from fixation to item
+ITEM_ECCENTRICITY = 5.5  # distance from fixation to item
 
-RADIUS_COLOUR_WHEEL = 5
-INNER_RADIUS_COLOUR_WHEEL = 3.5
+RADIUS_COLOUR_WHEEL = 6
+INNER_RADIUS_COLOUR_WHEEL = 4.5
 
 
 def draw_fixation_dot(settings, colour="#eaeaea"):

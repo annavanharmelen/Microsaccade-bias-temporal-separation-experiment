@@ -83,6 +83,7 @@ def main():
     data = []
     current_trial = 0
     finished_early = True
+    mouse = event.Mouse(visible=False, win=settings["window"])
 
     # Start experiment
     try:

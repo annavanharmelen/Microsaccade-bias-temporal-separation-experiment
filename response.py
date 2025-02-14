@@ -187,6 +187,8 @@ def get_response(
         trigger = get_trigger("response_offset", positions, target_item)
         eyetracker.tracker.send_message(f"trig{trigger}")
 
+    mouse = event.Mouse(visible=False, win=settings["window"])
+
     return {
         "idle_reaction_time_in_ms": round(idle_reaction_time * 1000, 2),
         "response_time_in_ms": round(response_time * 1000, 2),

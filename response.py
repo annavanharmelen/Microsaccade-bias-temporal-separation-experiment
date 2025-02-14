@@ -77,14 +77,17 @@ def evaluate_response(selected_colour, target_colour, colours):
 
     if abs_rgb_distance > 180:
         rgb_distance = 360 - abs_rgb_distance
+        rgb_distance_signed = abs_rgb_distance - 360
     else:
         rgb_distance = abs_rgb_distance
+        rgb_distance_signed = abs_rgb_distance
 
     performance = round(100 - rgb_distance / 180 * 100)
 
     return {
         "abs_rgb_distance": abs_rgb_distance,
         "rgb_distance": rgb_distance,
+        "rgb_distance_signed": rgb_distance_signed,
         "performance": performance,
     }
 

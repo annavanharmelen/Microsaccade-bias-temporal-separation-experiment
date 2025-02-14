@@ -7,7 +7,7 @@ see README.md for instructions if needed
 
 # Import necessary stuff
 import traceback
-from psychopy import core
+from psychopy import core, event
 import pandas as pd
 from participantinfo import get_participant_details
 from set_up import get_monitor_and_dir, get_settings

@@ -103,7 +103,7 @@ def single_trial(
     for index, (duration, _, frame) in enumerate(screens[:-1]):
         # Send trigger if not testing
         if not testing and frame:
-            trigger = get_trigger(frame, positions, target_item)
+            trigger = get_trigger(frame, positions, target_item, retrocue)
             eyetracker.tracker.send_message(f"trig{trigger}")
 
         # Check for pressed 'q'
@@ -134,13 +134,13 @@ def single_trial(
     )
 
     if not testing:
-        trigger = get_trigger("feedback_onset", positions, target_item)
+        trigger = get_trigger("feedback_onset", positions, target_item, retrocue)
         eyetracker.tracker.send_message(f"trig{trigger}")
 
     settings["window"].flip()
     sleep(0.25)
 
     return {
-        "condition_code": get_trigger("stimulus_onset_1", positions, target_item),
+        "condition_code": get_trigger("stimulus_onset_1", positions, target_item, retrocue),
         **response,
     }

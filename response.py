@@ -143,7 +143,7 @@ def get_response(
     idle_reaction_time = response_started - idle_reaction_time_start
 
     if not testing and eyetracker:
-        trigger = get_trigger("response_onset", positions, target_item)
+        trigger = get_trigger("response_onset", positions, target_item, retrocue)
         eyetracker.tracker.send_message(f"trig{trigger}")
 
     # Show colour wheel and get participant response
@@ -187,7 +187,7 @@ def get_response(
     response_time = time() - response_started
 
     if not testing and eyetracker:
-        trigger = get_trigger("response_offset", positions, target_item)
+        trigger = get_trigger("response_offset", positions, target_item, retrocue)
         eyetracker.tracker.send_message(f"trig{trigger}")
 
     mouse = event.Mouse(visible=False, win=settings["window"])

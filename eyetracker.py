@@ -47,7 +47,7 @@ class Eyelinker:
         self.tracker.close_edf()
 
 
-def get_trigger(frame, positions, target_item):
+def get_trigger(frame, positions, target_item, retrocue):
     condition_marker = {1: 1, 2: 2}[target_item]
 
     if positions[0] == "right":
@@ -63,4 +63,4 @@ def get_trigger(frame, positions, target_item):
         "response_onset": "4",
         "response_offset": "5",
         "feedback_onset": "6",
-    }[frame] + str(condition_marker)
+    }[frame] + f"{'1' if retrocue == 0 else ''}" + str(condition_marker)

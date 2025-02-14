@@ -10,8 +10,8 @@ from psychopy import visual
 import numpy as np
 
 DOT_SIZE = 0.1  # radius of fixation dot
-ITEM_SIZE = 0.5  # radius of item
-ITEM_ECCENTRICITY = 5.5  # distance from fixation to item
+ITEM_SIZE = 1  # radius of item
+ITEM_ECCENTRICITY = 6.5  # distance from fixation to item
 
 RADIUS_COLOUR_WHEEL = 6
 INNER_RADIUS_COLOUR_WHEEL = 4.5

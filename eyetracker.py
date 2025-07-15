@@ -3,7 +3,7 @@ This file contains the functions necessary for
 connecting and using the eyetracker.
 To run the 'microsaccade bias temporal separation' experiment, see main.py.
 
-made by Anna van Harmelen, 2023, using code by Rose Nasrawi & Baiwei Liu
+made by Anna van Harmelen, 2023, using code by Ezra Nasrawi & Baiwei Liu
 """
 
 from lib import eyelinker
